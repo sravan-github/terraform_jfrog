@@ -43,7 +43,7 @@ metadata = {
         inline = [
           "chmod +x ~/jfrog.sh",
           "cd ~",
-          "./installations.sh"
+          "./jfrog.sh"
         ]
         connection {
             host        = google_compute_address.static.address
