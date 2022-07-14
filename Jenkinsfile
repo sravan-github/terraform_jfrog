@@ -14,10 +14,10 @@ pipeline {
             ls -l
             pwd
             terraform --version
-            #export GOOGLE_APPLICATION_CREDENTIALS="./gcp-key.json"
-            #terraform init
-            #terraform plan
-            #terraform apply --auto-approve
+            export GOOGLE_APPLICATION_CREDENTIALS="./gcp-key.json"
+            terraform init
+            terraform plan
+            terraform apply --auto-approve
             '''
       }
     }
