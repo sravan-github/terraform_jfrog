@@ -27,9 +27,7 @@ metadata = {
   }
 
   
- // resource "null_resource" "copy_execute" {
-  provisioner "remote-exec" {
-    
+ resource "null_resource" "copy_execute" {
     connection {
       host        = google_compute_address.static.address
       type        = "ssh"
@@ -42,7 +40,8 @@ metadata = {
       source      = "jfrog.sh"
       destination = "/tmp/jfrog.sh"
       }
-    
+    provisioner "remote-exec" {
+      
     inline = [
       "sudo chmod 777 /tmp/jfrog.sh",
       "sh /tmp/jfrog.sh",
