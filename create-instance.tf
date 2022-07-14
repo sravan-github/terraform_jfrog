@@ -35,7 +35,7 @@ metadata = {
       type        = "ssh"
       user        = "testuser"
       timeout     = "500s"
-      private_key = "${file("/home/sravangcp/testuser.pem")}"
+      private_key = "${file("./testuser.pem")}"
     }
  }
     
@@ -50,7 +50,7 @@ metadata = {
             type        = "ssh"
             user        = "testuser"
             timeout     = "500s"
-            private_key = "${file("/home/sravangcp/testuser.pem")}"
+            private_key = "${file("./testuser.pem")}"
         }
 
     }
