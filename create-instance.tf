@@ -27,7 +27,9 @@ metadata = {
   }
 
   
- resource "null_resource" "copy_execute" {
+ provisioner "file" {
+    source = "jfrog.sh"
+    destination = "jfrog.sh"
     connection {
       host        = google_compute_address.static.address
       type        = "ssh"
@@ -35,20 +37,24 @@ metadata = {
       timeout     = "500s"
       private_key = "${file("/home/sravangcp/testuser.pem")}"
     }
+ }
     
-    provisioner "file" {
-      source      = "jfrog.sh"
-      destination = "/tmp/jfrog.sh"
-      }
     provisioner "remote-exec" {
-      
-    inline = [
-      "sudo chmod 777 /tmp/jfrog.sh",
-      "sh /tmp/jfrog.sh",
-    ]
-  }
-  depends_on = [ google_compute_instance.default ]
-  }
+        inline = [
+          "chmod +x ~/jfrog.sh",
+          "cd ~",
+          "./installations.sh"
+        ]
+        connection {
+            host        = google_compute_address.static.address
+            type        = "ssh"
+            user        = "testuser"
+            timeout     = "500s"
+            private_key = "${file("/home/sravangcp/testuser.pem")}"
+        }
+
+    }
+  
 
   //  metadata_startup_script = "sudo apt-get update && sudo apt-get install apache2 -y"
 
