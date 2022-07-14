@@ -2,7 +2,7 @@ resource "google_compute_address" "static" {
   name = "ipv4-address"
 }
 resource "google_compute_instance" "default" {
-  name         = "virtual-machine-from-terraform"
+  name         = "jforg-vm"
   machine_type = "f1-micro"
   zone         = "us-central1-a"
 
@@ -26,7 +26,9 @@ metadata = {
     }
   }
 
-  provisioner "remote-exec" {
+  
+  resource "null_resource" "copy_execute" {
+    
     connection {
       host        = google_compute_address.static.address
       type        = "ssh"
@@ -34,10 +36,19 @@ metadata = {
       timeout     = "500s"
       private_key = "${file("/home/sravangcp/testuser.pem")}"
     }
+    
+    provisioner "file" {
+      source      = "jfrog.sh"
+      destination = "/tmp/jfrog.sh"
+      }
+    
+    provisioner "remote-exec" {
     inline = [
-      "sudo apt install python -y",
-      "sudo apt install apache2 -y",
+      "sudo chmod 777 /tmp/jfrog.sh",
+      "sh /tmp/jfrog.sh",
     ]
+  }
+  depends_on = [ google_compute_instance.default ]
   }
 
   //  metadata_startup_script = "sudo apt-get update && sudo apt-get install apache2 -y"
